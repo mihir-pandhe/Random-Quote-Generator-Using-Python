@@ -13,11 +13,22 @@ def fetch_quote():
         return f"Error fetching quote: {e}"
 
 
+def save_quote(quote):
+    with open("favorite_quotes.txt", "a") as file:
+        file.write(quote + "\n")
+
+
 def main():
     print("Welcome to the Random Quote Generator!")
     while True:
         print("\nFetching a random quote for you...")
-        print(fetch_quote())
+        quote = fetch_quote()
+        print(quote)
+
+        save = input("\nWould you like to save this quote? (yes/no): ").strip().lower()
+        if save == "yes":
+            save_quote(quote)
+            print("Quote saved to favorite_quotes.txt!")
 
         choice = input("\nWould you like another quote? (yes/no): ").strip().lower()
         if choice != "yes":
