@@ -3,20 +3,25 @@ import requests
 
 def fetch_quote():
     url = "https://zenquotes.io/api/random"
-    response = requests.get(url)
-    data = response.json()
-    quote = f"{data[0]['q']} - {data[0]['a']}"
-    return quote
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        quote = f"{data[0]['q']} - {data[0]['a']}"
+        return quote
+    except requests.exceptions.RequestException as e:
+        return f"Error fetching quote: {e}"
 
 
 def main():
+    print("Welcome to the Random Quote Generator!")
     while True:
-        print("\nHere's a random quote for you:")
+        print("\nFetching a random quote for you...")
         print(fetch_quote())
 
         choice = input("\nWould you like another quote? (yes/no): ").strip().lower()
         if choice != "yes":
-            print("Goodbye!")
+            print("Thank you for using the Random Quote Generator! Goodbye!")
             break
 
 
